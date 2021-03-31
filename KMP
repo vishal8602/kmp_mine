@@ -1,0 +1,67 @@
+class Solution {
+    int lps[];
+    public int strStr(String haystack, String needle) 
+    {
+        lps=new int[needle.length()]; 
+        if(needle.length()==0) return 0;
+        clps(needle);
+       // for(int i=0;i<needle.length();i++) System.out.print(" "+lps[i]+" ");
+        return solve(haystack,needle);
+    }
+    void clps(String needle)
+    {
+        
+        int m=needle.length();
+        int i=0;
+        int j=1;
+        while(j<m)
+        {
+            if(needle.charAt(i)==needle.charAt(j))
+            {
+                i++;
+                lps[j]=i;
+                j++;
+            }
+            else
+            {
+                if(i==0) 
+                {
+                    lps[j]=0;
+                    j++;
+                }
+                else
+                {
+                    i=lps[i-1];
+                }
+            }
+        }
+        
+    }
+    int solve(String haystack, String needle)
+    {
+        int i=0;//for haystack
+        int j=0;//for needle
+        while(i<haystack.length()){
+        if(haystack.charAt(i)==needle.charAt(j))
+        {
+            i++;
+            j++;
+             if(j==needle.length())
+            {
+              return Math.abs(i-j);
+            }
+        }
+        
+       
+        else
+        {
+            if(j==0) i++;
+            else
+            {
+              j=lps[j-1];
+            }
+        }
+        }
+        return -1;
+    }
+}
